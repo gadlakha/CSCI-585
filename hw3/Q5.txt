@@ -1,0 +1,74 @@
+--- Database: spatialHwGA
+
+CREATE EXTENSION postgis;
+CREATE EXTENSION postgis_topology;
+
+---Query to create table and insert values
+CREATE TABLE spatialDataPoints (Name VARCHAR, Geom GEOMETRY);
+
+------------------------------------------------------------------------------------------------------
+INSERT INTO spatialDataPoints VALUES
+('GaughanTiberti','POINT(-118.282527 34.018593)'),
+('ScienceEnggLib','POINT(-118.288746 34.019842)'),
+('Doheny','POINT(-118.283747 34.020411)'),
+('VKC','POINT(-118.284003 34.021259)'),
+('Leavey','POINT(-118.282812 34.021914)'),
+('CammilleriHall','POINT(-118.288870 34.021457)'),
+('Bovard','POINT(-118.285555 34.020833)'),
+('SimonRamoRctl','POINT(-118.284686 34.022811)'),
+('MacDonaldRctl','POINT(-118.285091 34.022884)'),
+('NewmanRecital','POINT(-118.284577 34.019749)'),
+('CammilleriCafé','POINT(-118.283889 34.019290)'),
+('MoretonFig','POINT(-118.285961 34.0198198)'),
+('PopovichCafé','POINT(-118.282673 34.019069)'),
+('LawSchoolCafé','POINT(-118.284391 34.018700)'),
+('CoffeeBeanTeaLf','POINT(-118.286293 34.020198)');
+
+--------------------------------------------------------------------------------------------------------
+--Query to view the data from table
+SELECT * FROM spatialDataPoints;
+
+name	                 geom
+GaughanTiberti	01010000002B4F20EC14925DC09F77634161024140
+ScienceEnggLib	010100000074B680D07A925DC02A8BC22E8A024140
+Doheny	        0101000000A4552DE928925DC045BDE0D39C024140
+VKC	        0101000000D13DEB1A2D925DC072DF6A9DB8024140
+Leavey	        0101000000A6BA809719925DC08BA9F413CE024140
+CammilleriHall	0101000000EAB298D87C925DC098A25C1ABF024140
+Bovard	        0101000000658D7A8846925DC0BBD6DEA7AA024140
+SimonRamoRctl	010100000042E8A04B38925DC0997E8978EB024140
+MacDonaldRctl	0101000000925852EE3E925DC003CDE7DCED024140
+NewmanRecital	0101000000670C738236925DC079909E2287024140
+CammilleriCafe	01010000006DACC43C2B925DC0E6913F1878024140
+MoretonFig	01010000009DBB5D2F4D925DC01968887489024140
+PopovichCafe	0101000000959D7E5017925DC008AF5DDA70024140
+LawSchoolCafe	0101000000B6114F7633925DC0B537F8C264024140
+CoffeeBeanTeaLf	0101000000B804E09F52925DC0E9B81AD995024140
+-----------------------------------------------------------------------------------------------------------
+---Query 1
+---Query to fetch points to create polygon (Convex Hull)
+
+SELECT ST_AsText(ST_ConvexHull(ST_Collect(Geom))) FROM spatialDataPoints;
+
+Output:
+POLYGON((-118.282527 34.018593,-118.284391 34.0187,-118.288746 34.019842,-118.28887 34.021457,-118.285091 34.022884,-118.284686 34.022811,-118.282812 34.021914,-118.282527 34.018593))
+------------------------------------------------------------------------------------------------------------
+---Query 2
+---Query to calculate the 4 nearest points from Bovard
+
+SELECT n.Name, ST_ASTEXT(n.geom) as Neighbor
+FROM spatialDataPoints local, spatialDataPoints n
+WHERE local.Name='Bovard' 
+and n.Name <> 'Bovard'
+ORDER BY ST_Distance(local.geom, n.geom) LIMIT 4; 
+
+
+Output:
+name		neighbor
+CoffeeBeanTeaLf	POINT(-118.286293 34.020198)
+MoretonFig	POINT(-118.285961 34.0198198)
+NewmanRecital	POINT(-118.284577 34.019749)
+VKC		POINT(-118.284003 34.021259)
+
+ 
+ 
