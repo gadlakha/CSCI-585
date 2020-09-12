@@ -16,11 +16,13 @@ This dataset that contains data regarding houses in several Boston suburbs, publ
 Predict: 'MEDV' (median home price) 
 1. Build a linear regression equation, to predict MEDV. 
 2. Create a 'MultilayerPerceptron' neural network that learns the data and find Root Mean Squared Error
+
 b) KNIME:
-Dataused :Abalon shells.
+Dataset used :Abalon shells.
 It consists of 4177 rows of data regarding abalone shells, where each row resulted from measuring 9 parameters/features/values for each shell. The data is in text format (.arff format). The idea is to be able to predict the 9th value, number-of-rings, given the other 8 values, using the existing dataset to learn how to predict.
 1.Perform linear regression [on all parameters, not a subset] using nodes: AARF Reader, Linear Regression Learner. Create and connect the nodes, and execute each. Generate its linear regression equation
 2.Set up a 'Decision Tree Learner' predictor, where 'sex' is the predicted variable. 
+
 c)Rapid Miner:
 1. Create 6 clusters  out of the 4177 pieces of data (use a kMeans 'Clustering' node). Find data points in each cluster
 2. Find linear regression to predict num_rings, from length,diameter,height.
