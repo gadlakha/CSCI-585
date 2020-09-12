@@ -1,5 +1,6 @@
 # csci-585
 #HW3:Geospatial data handling
+
 Collect latitude,longitude pairs (ie. spatial coordinates) for 15 locations, in the USC campus (UPC). Sample 5 points, in 3 categories of your choice - libraries, cafes, waterworks, etc. 
 Create KML file with these 15 locations and  use Google Earth to visualize the data in your KML file.
 Use spatial db software-PostGres to compute the convex hull for the 15 points [a convex hull for a set of 2D points is the smallest convex polygon that contains the point set].
